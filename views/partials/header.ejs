@@ -1,0 +1,26 @@
+<header class="header">
+  <nav class="nav">
+    <div class="hamburger" id="hamburger">
+      <i class="fa fa-bars"></i>
+    </div>
+    <a href="" class="logo">💬 Chat</a>
+
+
+    <ul class="nav_items" id="navLinks">
+      <li class="nav_item"><a href="#" class="nav_link">Home</a></li>
+      <li class="nav_item"><a href="#" class="nav_link">About</a></li>
+      <li class="nav_item"><a href="#" class="nav_link">Contact</a></li>
+    </ul>
+    <div class="nav-btns">
+      <% if (user) { %>
+        <button class="button btn" id="form-open" type="button">Let's Talk</button>
+        <form action="/logout" method="get">
+          <button class="button btn">Logout</button>
+        </form>
+        <% } else { %>
+          <button class="button btn" id="form-open" type="button">Let's Talk</button>
+          <% } %>
+    </div>
+
+  </nav>
+</header>

@@ -1,0 +1,47 @@
+<% layout('layout') %>
+  <section class="home">
+    <% if (user) { %>
+      <div class="form_container">
+        <i class="fa-solid fa-xmark form_close"></i>
+        <div class="login_form">
+          <form action="">
+
+            <div id="login">
+              <h3 class="greeting">👋 Hii <%= user %>!</h3>
+              <div class="input_box">
+                <input id="username" placeholder="Enter username" value="<%= user %>" readonly />
+                <i class="fa-solid fa-user user"></i>
+              </div>
+              <div class="input_box">
+                <input id="room" placeholder="Enter room name" />
+                <i class="fa-solid fa-comments room"></i>
+              </div>
+              <button onclick="joinRoom()" class="button" type="button">Join Chat</button>
+              <div id="room-list" class="room-list">
+                <h4>Available Rooms:</h4>
+                <ul id="rooms"></ul>
+              </div>
+            </div>
+          </form>
+
+
+          <div id="chat" style="display: none;">
+            <div id="messages" class="chatbox"></div>
+
+            <div class="chat-input">
+              <textarea id="messageInput" placeholder="Type a message..."></textarea>
+              <button onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <% } else { %>
+        <!-- Login Prompt -->
+        <div class="form_container">
+          <i class="fa-solid fa-xmark form_close"></i>
+          <h2>Please log in to join a room</h2>
+          <a href="/login" class="button index-login">Login</a>
+        </div>
+        <% } %>
+  </section>
