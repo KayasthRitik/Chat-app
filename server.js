@@ -30,11 +30,20 @@ app.use(cookieParser());
 const server = http.createServer(app);
 const io = socketIo(server);
 const uri = process.env.MONGO_URI;
+async function startServer() {
+  try {
+    await mongoose.connect(uri);
+    console.log("✅ MongoDB connected");
 
-mongoose.connect(process.env.MONGO_URI, {
-})
-.then(() => console.log("✅ MongoDB Atlas Connected"))
-.catch(err => console.error("❌ MongoDB connection error:", err));
+    server.listen(8080, () => {
+      console.log("🌐 Server running on http://localhost:8080");
+    });
+
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err);
+  }
+}
+
 
 
 app.use(attachUser);
@@ -143,4 +152,5 @@ io.on("connection", (socket) => {
   });
 });
 
+startServer();
 server.listen(8080, () => console.log("Server running on http://localhost:8080"));
