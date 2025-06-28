@@ -34,17 +34,11 @@ async function startServer() {
   try {
     await mongoose.connect(uri);
     console.log("✅ MongoDB connected");
-
-    server.listen(8080, () => {
-      console.log("🌐 Server running on http://localhost:8080");
-    });
-
   } catch (err) {
     console.error("❌ MongoDB connection error:", err);
   }
 }
-
-
+startServer();
 
 app.use(attachUser);
 
@@ -151,5 +145,6 @@ io.on("connection", (socket) => {
     }
   });
 });
-
-startServer();
+server.listen(8080, () => {
+      console.log("🌐 Server running on http://localhost:8080");
+    });
