@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== "production") {
-    require('dotenv').config();
+  require('dotenv').config();
 }
 
 const express = require("express");
@@ -29,16 +29,20 @@ app.use(cookieParser());
 
 const server = http.createServer(app);
 const io = socketIo(server);
-const uri = process.env.MONGO_URI;
-async function startServer() {
-  try {
-    await mongoose.connect(uri);
-    console.log("✅ MongoDB connected");
-  } catch (err) {
-    console.error("❌ MongoDB connection error:", err);
-  }
-}
-startServer();
+const mongoUri = process.env.MONGO_URI;
+
+main().then(() => {
+  console.log("✅ MongoDB connected");
+}).catch((err) => {
+  console.error("❌ MongoDB connection error:", err);
+});
+
+async function main() {
+  await mongoose.connect(mongoUri, {
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
+  });
+};
 
 app.use(attachUser);
 
@@ -84,12 +88,12 @@ app.get("/login", (req, res) => {
 
 app.post("/login", async (req, res) => {
 
-  const {username, password} = req.body;
-  const user = await userModel.findOne({username});
+  const { username, password } = req.body;
+  const user = await userModel.findOne({ username });
 
-  if(!user){
+  if (!user) {
     return res.render("login", { title: "LogIn", error: "User not found" });
-  }else{console.log("USER DETAIL:",user)};
+  } else { console.log("USER DETAIL:", user) };
 
   bcrypt.compare(req.body.password, user.password, function (err, result) {
     let token = jwt.sign({ username: user.username }, jwtSecret);
@@ -146,5 +150,5 @@ io.on("connection", (socket) => {
   });
 });
 server.listen(8080, () => {
-      console.log("🌐 Server running on http://localhost:8080");
-    });
+  console.log("🌐 Server running on http://localhost:8080");
+});
